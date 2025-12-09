@@ -3,6 +3,8 @@ package com.github.tiagolofi.rest;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.github.tiagolofi.filter.LoveCalendarRequestFilter;
+
 import io.quarkus.qute.CheckedTemplate;
 import io.quarkus.qute.TemplateInstance;
 import jakarta.enterprise.context.RequestScoped;
@@ -17,14 +19,14 @@ public class TemplatesResource {
 
     @CheckedTemplate(requireTypeSafeExpressions = false)
     public static class Templates {
-        public static native TemplateInstance loveCalendar(List<Evento> eventos);
+        public static native TemplateInstance loveCalendar(String nome, List<Evento> eventos);
     }
 
     @GET
     @Produces(MediaType.TEXT_HTML)
     @Path("love-calendar")
     public TemplateInstance get() {
-        return Templates.loveCalendar(eventos());
+        return Templates.loveCalendar(LoveCalendarRequestFilter.getServerIdentifier(), eventos());
     }
 
     private List<Evento> eventos() {
