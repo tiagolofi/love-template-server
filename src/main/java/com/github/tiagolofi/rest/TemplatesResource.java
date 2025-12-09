@@ -46,7 +46,7 @@ public class TemplatesResource {
         eventos.add(new Evento("Domingo Livre", "29", "Domingo Livre", "29 de dezembro", true, "00h"));
 
         // dia 30
-        eventos.add(new Evento("O que mais fazer em uma segunda feira pela manhã?", "30", "", "30 de dezembro", true, "00h"));
+        eventos.add(new Evento("O que mais fazer em uma segunda feira chuvosa pela manhã?", "30", "", "30 de dezembro", true, "00h"));
         
         // dia 31
         eventos.add(new Evento("Reveillon", "31", "", "31 de dezembro", true, "00h"));
