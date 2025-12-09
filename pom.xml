@@ -32,6 +32,11 @@
     </dependencyManagement>
 
     <dependencies>
+        <!-- Este projeto -->
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-rest-qute</artifactId>
+        </dependency>
         <!-- REST -->
         <dependency>
             <groupId>io.quarkus</groupId>

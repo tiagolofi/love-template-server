@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Calendário & Cronograma — Evento Romântico</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div>
+        <h1>Nosso Encontro</h1>
+        <div class="subtitle">26 de dezembro — 03 de janeiro</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-family:'Dancing Script'; font-size:14px;color:#8b4b51">Um tempo só nosso</div>
+        <!-- <div style="font-size:12px;color:#a07a7d">Sinta-se à vontade para personalizar</div> -->
+      </div>
+    </header>
+
+    <div class="content">
+      <section class="calendar">
+        <div class="month">
+          <h2>Dezembro / Janeiro</h2>
+          <div style="font-size:14px;color:#9b6f6f">26 de dez — 03 de jan</div>
+        </div>
+
+        <div class="grid" aria-hidden="false">
+          <div class="day-label">Seg</div>
+          <div class="day-label">Ter</div>
+          <div class="day-label">Qua</div>
+          <div class="day-label">Qui</div>
+          <div class="day-label">Sex</div>
+          <div class="day-label">Sáb</div>
+          <div class="day-label">Dom</div>
+
+          <!-- We'll render days around the range. For simplicity, static cells. -->
+
+          <!-- previous month dim cells -->
+          <div class="cell dim"><div class="date">23</div></div>
+          <div class="cell dim"><div class="date">24</div></div>
+          <div class="cell dim"><div class="date">25</div></div>
+
+          {#for evento in eventos}
+            {#if evento.isPrincipal}
+            <div class="cell in-range start"><div class="date">{evento.dia}</div>
+              <div class="event">{evento.titulo}</div>
+            </div>
+            {/if}
+          {/for}
+
+          <!-- filler -->
+          <div class="cell dim"><div class="date">4</div></div>
+          <div class="cell dim"><div class="date">5</div></div>
+        </div>
+
+        <!-- <footer class="note">Destaque: Os dias entre 26 dez e 03 jan estão reservados para o evento.</footer> -->
+      </section>
+
+      <aside class="schedule">
+        <h3>Cronograma</h3>
+
+        {#for evento in eventos}
+          {#if evento.isPrincipal == false}
+            <div class="event-item">
+              <time>{evento.data} - {evento.hora}</time>
+              <div class="title">{evento.titulo}</div>
+              <div class="desc">{evento.descricao}</div>
+            </div>
+          {/if}
+        {/for}
+
+        <!-- <footer class="note">Sugestão: clique nos dias do calendário para adicionar ou editar eventos (funcionalidade futura).</footer> -->
+      </aside>
+    </div>
+  </div>
+  <!-- <script>
+    document.querySelectorAll('.calendar .cell').forEach(cell => {
+      cell.addEventListener('click', () => {
+        const currentEvent = cell.querySelector('.event')?.innerText || '';
+        const newEvent = prompt('Edite ou adicione um evento para este dia:', currentEvent);
+        if (newEvent !== null) {
+          let eventEl = cell.querySelector('.event');
+          if (newEvent.trim() === '') {
+            if (eventEl) eventEl.remove();
+          } else {
+            if (!eventEl) {
+              eventEl = document.createElement('div');
+              eventEl.className = 'event';
+              cell.appendChild(eventEl);
+            }
+            eventEl.innerText = newEvent;
+          }
+        }
+      });
+    });
+  </script> -->
+</body>
+</html>
