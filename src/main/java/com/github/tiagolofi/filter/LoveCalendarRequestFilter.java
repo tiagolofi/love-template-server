@@ -22,6 +22,7 @@ public class LoveCalendarRequestFilter implements ContainerRequestFilter {
     private static final Logger logger = Logger.getLogger(LoveCalendarRequestFilter.class);
     private static final String LOVE_CALENDAR_PATH = "/templates/love-calendar";
     private String serverID;
+    private String userAgent;
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
@@ -59,7 +60,7 @@ public class LoveCalendarRequestFilter implements ContainerRequestFilter {
         logMessage.append("Client IP: ").append(clientIP).append("\n");
 
         // User-Agent e informações do dispositivo
-        String userAgent = requestContext.getHeaderString("User-Agent");
+        userAgent = requestContext.getHeaderString("User-Agent");
         logMessage.append("User-Agent: ").append(userAgent != null ? userAgent : "NOT PROVIDED").append("\n");
         logMessage.append("Device Info: ").append(getDeviceInfo(userAgent)).append("\n");
 
@@ -134,7 +135,7 @@ public class LoveCalendarRequestFilter implements ContainerRequestFilter {
     /**
      * Obtém um identificador único da máquina servidor
      */
-    public static String getServerIdentifier() {
+    private String getServerIdentifier() {
         try {
             // Combina hostname com um identificador único da JVM
             String hostname = InetAddress.getLocalHost().getHostName();
@@ -173,6 +174,13 @@ public class LoveCalendarRequestFilter implements ContainerRequestFilter {
         }
 
         return location.length() > 0 ? location.toString() : "NOT AVAILABLE";
+    }
+
+    public String getUsuarioDevido() {
+        if (userAgent != null && userAgent.contains("iPhone")) {
+            return "Jamile";
+        }
+        return "Quem é você?";
     }
 
     /**

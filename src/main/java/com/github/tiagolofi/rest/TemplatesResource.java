@@ -8,6 +8,7 @@ import com.github.tiagolofi.filter.LoveCalendarRequestFilter;
 import io.quarkus.qute.CheckedTemplate;
 import io.quarkus.qute.TemplateInstance;
 import jakarta.enterprise.context.RequestScoped;
+import jakarta.inject.Inject;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
@@ -16,6 +17,9 @@ import jakarta.ws.rs.core.MediaType;
 @RequestScoped
 @Path("/templates")
 public class TemplatesResource {
+
+    @Inject
+    LoveCalendarRequestFilter filtro;
 
     @CheckedTemplate(requireTypeSafeExpressions = false)
     public static class Templates {
@@ -26,7 +30,7 @@ public class TemplatesResource {
     @Produces(MediaType.TEXT_HTML)
     @Path("love-calendar")
     public TemplateInstance get() {
-        return Templates.loveCalendar(LoveCalendarRequestFilter.getServerIdentifier(), eventos());
+        return Templates.loveCalendar(filtro.getUsuarioDevido(), eventos());
     }
 
     private List<Evento> eventos() {
