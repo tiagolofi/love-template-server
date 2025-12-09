@@ -21,18 +21,21 @@ body {
     font-family: 'Dancing Script', system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
     color: var(--text);
     -webkit-font-smoothing: antialiased;
-    padding: 48px 20px;
+    padding: clamp(12px, 3vw, 48px) 20px;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 
 .wrap {
-    width: 1100px;
-    max-width: 96%;
+    width: 100%;
+    max-width: 1100px;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.95));
     border-radius: 20px;
-    padding: 36px;
+    padding: clamp(16px, 4vw, 36px);
     box-shadow: var(--shadow);
     border: 1px solid rgba(155, 120, 120, 0.06);
     position: relative;
@@ -68,84 +71,107 @@ body {
 
 header {
     display: flex;
-    align-items: center;
+    flex-wrap: wrap;
+    align-items: flex-start;
     justify-content: space-between;
-    margin-bottom: 18px;
+    margin-bottom: 20px;
+    gap: 20px;
 }
 
 h1 {
     font-family: 'Great Vibes', 'Dancing Script', cursive;
-    font-size: 48px;
+    font-size: clamp(28px, 6vw, 48px);
     margin: 0;
     color: #7a4a4f;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    max-width: 100%;
 }
 
 .subtitle {
-    font-size: 14px;
+    font-size: clamp(12px, 2vw, 14px);
     color: #7a4a4f;
     opacity: 0.85;
+    margin-top: 6px;
 }
 
 .content {
     display: grid;
-    grid-template-columns: 1fr 420px;
-    gap: 28px;
+    grid-template-columns: 1fr 280px;
+    gap: clamp(16px, 3vw, 28px);
+    min-width: 0;
 }
 
 /* calendar */
 .calendar {
     background: var(--card);
-    padding: 20px;
+    padding: clamp(12px, 3vw, 20px);
     border-radius: 14px;
     box-shadow: var(--shadow);
+    min-width: 0;
+    overflow-x: auto;
 }
 
 .calendar .month {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     margin-bottom: 12px;
+    gap: 10px;
 }
 
 .month h2 {
     margin: 0;
     font-family: 'Great Vibes';
-    font-size: 28px;
+    font-size: clamp(20px, 4vw, 28px);
     color: #7a4a4f;
 }
 
 .grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    gap: 8px;
+    gap: clamp(4px, 1vw, 8px);
+    min-width: 0;
 }
 
 .day-label {
-    font-size: 12px;
+    font-size: clamp(10px, 2vw, 12px);
     text-align: center;
     color: #9b6f6f;
+    font-weight: 600;
+    padding: clamp(2px, 0.5vw, 4px);
 }
 
 .cell {
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.8));
-    padding: 12px;
-    border-radius: 10px;
-    min-height: 84px;
+    padding: clamp(6px, 2vw, 12px);
+    border-radius: 8px;
+    min-height: clamp(50px, 12vw, 84px);
     position: relative;
     border: 1px solid rgba(155, 120, 120, 0.04);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
 }
 
 .cell .date {
     font-weight: 700;
-    color: #8b4b51
+    color: #8b4b51;
+    font-size: clamp(12px, 2.5vw, 16px);
 }
 
 .cell .event {
-    margin-top: 8px;
-    font-size: 13px;
+    margin-top: auto;
+    font-size: clamp(10px, 1.5vw, 13px);
     background: linear-gradient(90deg, rgba(233, 168, 176, 0.15), rgba(246, 214, 219, 0.08));
-    padding: 6px;
-    border-radius: 8px;
+    padding: clamp(3px, 1vw, 6px);
+    border-radius: 6px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
+    line-height: 1.2;
 }
 
 .cell.dim {
@@ -160,64 +186,208 @@ h1 {
 
 .cell.start,
 .cell.end {
-    background: linear-gradient(135deg, #fff7f8, #ffeef1)
+    background: linear-gradient(135deg, #fff7f8, #ffeef1);
 }
 
 /* schedule sidebar */
 .schedule {
     background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), #fff);
-    padding: 20px;
+    padding: clamp(12px, 3vw, 20px);
     border-radius: 14px;
-    box-shadow: var(--shadow)
+    box-shadow: var(--shadow);
+    min-width: 0;
 }
 
 .schedule h3 {
     font-family: 'Great Vibes';
     margin: 0 0 8px 0;
-    font-size: 26px;
+    font-size: clamp(18px, 4vw, 26px);
     color: #7a4a4f;
 }
 
 .event-item {
-    border-radius: 12px;
-    padding: 12px;
-    margin-bottom: 12px;
+    border-radius: 10px;
+    padding: clamp(8px, 2vw, 12px);
+    margin-bottom: clamp(6px, 1vw, 12px);
     background: linear-gradient(90deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.98));
     border: 1px solid rgba(155, 120, 120, 0.03);
 }
 
 .event-item time {
     display: block;
-    font-size: 13px;
+    font-size: clamp(11px, 1.8vw, 13px);
     color: #9b6f6f;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
 }
 
 .event-item .title {
     font-weight: 700;
-    font-size: 16px;
-    margin-top: 6px;
+    font-size: clamp(13px, 2vw, 16px);
+    margin-top: 4px;
     color: #6d3b3f;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
 }
 
 .event-item .desc {
-    margin-top: 6px;
-    font-size: 13px;
-    color: #6b4b4b
+    margin-top: 4px;
+    font-size: clamp(11px, 1.8vw, 13px);
+    color: #6b4b4b;
+    line-height: 1.3;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    hyphens: auto;
 }
 
 footer.note {
-    margin-top: 16px;
+    margin-top: 12px;
     text-align: center;
     color: #a07a7d;
-    font-size: 13px
+    font-size: clamp(11px, 1.5vw, 13px);
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
-@media (max-width:900px) {
+@media (max-width: 1024px) {
+    .wrap {
+        padding: clamp(12px, 3vw, 24px);
+    }
+
+    .content {
+        grid-template-columns: 1fr 220px;
+        gap: 16px;
+    }
+
+    .grid {
+        gap: 4px;
+    }
+
+    .cell {
+        min-height: 55px;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding: 12px 16px;
+    }
+
+    .wrap {
+        padding: 12px;
+        border-radius: 16px;
+    }
+
+    header {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
+
+    header > div:last-child {
+        text-align: left;
+        width: 100%;
+    }
+
     .content {
         grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .grid {
+        gap: 4px;
+    }
+
+    .cell {
+        min-height: 50px;
+        padding: 5px;
+    }
+
+    .schedule {
+        padding: 12px;
+    }
+
+    .event-item {
+        padding: 8px;
+        margin-bottom: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding: 8px 12px;
+    }
+
+    .wrap {
+        padding: 10px;
+        border-radius: 12px;
+    }
+
+    .wrap::before,
+    .wrap::after {
+        opacity: 0.2;
+        width: 120px;
+        height: 120px;
+    }
+
+    .wrap::before {
+        left: -40px;
+        top: -40px;
+    }
+
+    .wrap::after {
+        right: -40px;
+        bottom: -40px;
     }
 
     h1 {
-        font-size: 36px;
+        max-width: 100%;
+        word-break: break-word;
     }
+
+    .calendar {
+        padding: 8px;
+    }
+
+    .grid {
+        gap: 3px;
+    }
+
+    .cell {
+        min-height: 45px;
+        padding: 4px;
+    }
+
+    .day-label {
+        padding: 1px;
+    }
+
+    .calendar .month {
+        margin-bottom: 8px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .schedule {
+        padding: 10px;
+    }
+
+    .event-item {
+        padding: 6px;
+        margin-bottom: 6px;
+    }
+}
+
+/* Prevenir overflow */
+html, body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+.wrap, .content, .calendar, .schedule {
+    width: 100%;
+    max-width: 100%;
 }
