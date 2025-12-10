@@ -63,28 +63,31 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
       }
 
       // 4. Carregar o HTML da resposta e injetar na página
-      const html = await response.text();
+      // const html = await response.text();
       
       // Mostrar mensagem de sucesso
       successDiv.textContent = 'Login realizado com sucesso!';
       successDiv.style.display = 'block';
 
-      // Aguardar um pouco e depois substituir o conteúdo
-      setTimeout(() => {
-        // Atualizar URL sem redirecionar
-        window.history.pushState({}, '', '/templates/love-calendar');
+      window.location.href = '/templates/love-calendar';
+      // window.headers.set('Authorization', token);
+
+    //   // Aguardar um pouco e depois substituir o conteúdo
+    //   setTimeout(() => {
+    //     // Atualizar URL sem redirecionar
+    //     window.history.pushState({}, '', '/templates/love-calendar');
         
-        document.open();
-        document.write(html);
-        document.close();
-      }, 500);
+    //     document.open();
+    //     document.write(html);
+    //     document.close();
+    //   }, 500);
     } else {
       throw new Error('Token inválido recebido do servidor');
     }
   } catch (error) {
     console.error('Erro:', error);
-    errorDiv.textContent = '❌ ' + (error.message || 'Usuário ou senha incorretos');
-    errorDiv.style.display = 'block';
+    // errorDiv.textContent = '❌ ' + (error.message || 'Usuário ou senha incorretos');
+    // errorDiv.style.display = 'block';
   }
 });
 
