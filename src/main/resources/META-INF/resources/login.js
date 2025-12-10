@@ -42,37 +42,47 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     const token = await response.text();
 
     if (token && token.trim() !== '') {
-      // 2. Salvar token no localStorage (ARMAZENAR APENAS O JWT, sem o prefixo "Bearer ")
-      // Isso evita possíveis duplicações "Bearer Bearer ..." e torna o uso mais previsível.
+      // 2. Salvar token no localStorage
       localStorage.setItem('authToken', token);
+      console.log('Token salvo no localStorage');
 
       // Mostrar mensagem de sucesso
       successDiv.textContent = 'Login realizado com sucesso! Redirecionando...';
       successDiv.style.display = 'block';
 
-      // 3. Fazer uma chamada para o endpoint protegido com o header Authorization
-      // (Isso vai retornar 200 ou 401 — vamos inspecionar a resposta e mostrar erro se necessário.)
+      // 3. Fazer requisição para /templates/love-calendar com Authorization header
       const authHeader = `Bearer ${token}`;
       fetch('/templates/love-calendar', {
         method: 'GET',
         headers: {
+          'Content-Type': 'text/html',
           'Authorization': authHeader
         }
       })
       .then(async (resp) => {
-        console.log('Resposta do fetch /templates/love-calendar:', resp.status, resp.statusText);
-        if (!resp.ok) {
-          const body = await resp.text().catch(() => '');
-          throw new Error(`Servidor retornou ${resp.status}: ${body}`);
+        console.log('Status da resposta:', resp.status, resp.statusText);
+        console.log('response.ok:', resp.ok);
+        
+        if (resp.status === 401) {
+          const errorBody = await resp.text();
+          console.error('Erro 401 - Detalhes:', errorBody);
+          throw new Error('Token inválido ou expirado: ' + errorBody);
         }
-        // Se o fetch foi OK, redirecionamos o usuário — OBS: a navegação direta NÃO incluirá headers.
+        
+        if (!resp.ok) {
+          const errorBody = await resp.text();
+          console.error('Erro na resposta:', resp.status, errorBody);
+          throw new Error(`Erro ${resp.status}: ${errorBody}`);
+        }
+        
+        console.log('Redirecionando para /templates/love-calendar');
         window.location.href = '/templates/love-calendar';
       })
       .catch((err) => {
-        console.error('Erro ao validar token no fetch antes do redirecionamento:', err);
-        // Mostrar mensagem de erro detalhada ao usuário
-        errorDiv.textContent = '❌ Erro de autenticação: ' + (err.message || '401');
+        console.error('Erro no fetch:', err.message);
+        errorDiv.textContent = '❌ ' + err.message;
         errorDiv.style.display = 'block';
+        localStorage.removeItem('authToken');
       });
     } else {
       throw new Error('Token inválido recebido do servidor');

@@ -28,9 +28,9 @@ public class TokenJwt {
             .upn(credencial.usuario)
             .groups(Set.of("user"))
             .claim("dataHora", LocalDateTime.now())
-            .expiresIn(Duration.ofHours(1))
-            .innerSign()
-            .encrypt();
+            .expiresIn(Duration.ofHours(6)).sign();
+            // .innerSign()
+            // .encrypt();
     }
 
     public static class UnauthorizedException extends RuntimeException {

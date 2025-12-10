@@ -2,10 +2,10 @@ package com.github.tiagolofi.rest;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.microprofile.jwt.JsonWebToken;
+import org.jboss.logging.Logger;
 
 import com.fasterxml.jackson.core.JacksonException;
 import com.fasterxml.jackson.core.exc.StreamReadException;
@@ -17,10 +17,10 @@ import com.github.tiagolofi.login.TokenJwt.Credencial;
 
 import io.quarkus.qute.CheckedTemplate;
 import io.quarkus.qute.TemplateInstance;
-import io.smallrye.jwt.build.Jwt;
 import jakarta.annotation.security.RolesAllowed;
 import jakarta.enterprise.context.RequestScoped;
 import jakarta.inject.Inject;
+import jakarta.ws.rs.Consumes;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
@@ -40,6 +40,9 @@ public class TemplatesResource {
     @Inject
     JsonWebToken token;
 
+    @Inject
+    Logger log;
+
     @CheckedTemplate(requireTypeSafeExpressions = false)
     public static class Templates {
         public static native TemplateInstance loveCalendar(String nome, List<Evento> eventos);
@@ -48,6 +51,7 @@ public class TemplatesResource {
 
     @POST
     @Produces(MediaType.TEXT_PLAIN)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Path("/login")
     public String login(Credencial credencial) {
         return tokenJwt.token(credencial);
@@ -65,6 +69,7 @@ public class TemplatesResource {
     @Path("/love-calendar")
     @RolesAllowed({"user"})
     public TemplateInstance get() throws JacksonException, DatabindException, IOException {
+        log.info("Token JWT recebido: " + token.getRawToken());
         return Templates.loveCalendar("teste", eventos());
     }
 
