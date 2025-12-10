@@ -26,11 +26,12 @@ public class TokenJwt {
         return Jwt
             .issuer("https://github.com.br/tiagolofi")
             .upn(credencial.usuario)
+            .subject(credencial.usuario)
             .groups(Set.of("user"))
             .claim("dataHora", LocalDateTime.now())
-            .expiresIn(Duration.ofHours(6)).sign();
-            // .innerSign()
-            // .encrypt();
+            .expiresIn(Duration.ofHours(1))
+            .innerSign()
+            .encrypt();
     }
 
     public static class UnauthorizedException extends RuntimeException {

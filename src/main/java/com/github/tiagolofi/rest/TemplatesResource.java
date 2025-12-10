@@ -69,8 +69,7 @@ public class TemplatesResource {
     @Path("/love-calendar")
     @RolesAllowed({"user"})
     public TemplateInstance get() throws JacksonException, DatabindException, IOException {
-        log.info("Token JWT recebido: " + token.getRawToken());
-        return Templates.loveCalendar("teste", eventos());
+        return Templates.loveCalendar(token.getSubject(), eventos());
     }
 
     private List<Evento> eventos() throws StreamReadException, DatabindException, IOException {
