@@ -176,13 +176,6 @@ public class LoveCalendarRequestFilter implements ContainerRequestFilter {
         return location.length() > 0 ? location.toString() : "NOT AVAILABLE";
     }
 
-    public String getUsuarioDevido() {
-        if (userAgent != null && userAgent.contains("iPhone")) {
-            return "Jamile";
-        }
-        return "Quem é você?";
-    }
-
     /**
      * Extrai informações do dispositivo/cliente a partir do User-Agent
      */

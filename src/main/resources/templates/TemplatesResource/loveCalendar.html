@@ -63,7 +63,7 @@
         <h3>Cronograma</h3>
 
         {#for evento in eventos}
-          {#if evento.isPrincipal == false}
+          {#if evento.isCronograma}
             <div class="event-item">
               <time>{evento.data} - {evento.hora}</time>
               <div class="title">{evento.titulo}</div>
@@ -76,26 +76,5 @@
       </aside>
     </div>
   </div>
-  <!-- <script>
-    document.querySelectorAll('.calendar .cell').forEach(cell => {
-      cell.addEventListener('click', () => {
-        const currentEvent = cell.querySelector('.event')?.innerText || '';
-        const newEvent = prompt('Edite ou adicione um evento para este dia:', currentEvent);
-        if (newEvent !== null) {
-          let eventEl = cell.querySelector('.event');
-          if (newEvent.trim() === '') {
-            if (eventEl) eventEl.remove();
-          } else {
-            if (!eventEl) {
-              eventEl = document.createElement('div');
-              eventEl.className = 'event';
-              cell.appendChild(eventEl);
-            }
-            eventEl.innerText = newEvent;
-          }
-        }
-      });
-    });
-  </script> -->
 </body>
 </html>

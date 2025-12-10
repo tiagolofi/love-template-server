@@ -1,11 +1,12 @@
 package com.github.tiagolofi.rest;
 
-public record Evento(
-    String titulo,
-    String dia,
-    String descricao,
-    String data,
-    boolean isPrincipal,
-    String hora
-) {}
+public class Evento {
+    public String titulo;
+    public String dia;
+    public String descricao;
+    public String data;
+    public boolean isPrincipal;
+    public boolean isCronograma;
+    public String hora;
+}
 
