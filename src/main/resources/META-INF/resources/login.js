@@ -44,46 +44,40 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     if (token && token.trim() !== '') {
       // 2. Salvar token no localStorage
       localStorage.setItem('authToken', token);
-      console.log('Token salvo no localStorage');
+      console.log('Token salvo');
 
-      // Mostrar mensagem de sucesso
-      successDiv.textContent = 'Login realizado com sucesso! Redirecionando...';
-      successDiv.style.display = 'block';
-
-      // 3. Fazer requisição para /templates/love-calendar com Authorization header
+      // 3. Fazer fetch para /templates/love-calendar com Authorization header
       const authHeader = `Bearer ${token}`;
-      fetch('/templates/love-calendar', {
+      const response = await fetch('/templates/love-calendar', {
         method: 'GET',
         headers: {
-          'Content-Type': 'text/html',
           'Authorization': authHeader
         }
-      })
-      .then(async (resp) => {
-        console.log('Status da resposta:', resp.status, resp.statusText);
-        console.log('response.ok:', resp.ok);
-        
-        if (resp.status === 401) {
-          const errorBody = await resp.text();
-          console.error('Erro 401 - Detalhes:', errorBody);
-          throw new Error('Token inválido ou expirado: ' + errorBody);
-        }
-        
-        if (!resp.ok) {
-          const errorBody = await resp.text();
-          console.error('Erro na resposta:', resp.status, errorBody);
-          throw new Error(`Erro ${resp.status}: ${errorBody}`);
-        }
-        
-        console.log('Redirecionando para /templates/love-calendar');
-        window.location.href = '/templates/love-calendar';
-      })
-      .catch((err) => {
-        console.error('Erro no fetch:', err.message);
-        errorDiv.textContent = '❌ ' + err.message;
-        errorDiv.style.display = 'block';
-        localStorage.removeItem('authToken');
       });
+
+      console.log('Resposta status:', response.status);
+
+      if (!response.ok) {
+        const errorBody = await response.text();
+        throw new Error(`Erro ${response.status}: ${errorBody}`);
+      }
+
+      // 4. Carregar o HTML da resposta e injetar na página
+      const html = await response.text();
+      
+      // Mostrar mensagem de sucesso
+      successDiv.textContent = 'Login realizado com sucesso!';
+      successDiv.style.display = 'block';
+
+      // Aguardar um pouco e depois substituir o conteúdo
+      setTimeout(() => {
+        // Atualizar URL sem redirecionar
+        window.history.pushState({}, '', '/templates/love-calendar');
+        
+        document.open();
+        document.write(html);
+        document.close();
+      }, 500);
     } else {
       throw new Error('Token inválido recebido do servidor');
     }

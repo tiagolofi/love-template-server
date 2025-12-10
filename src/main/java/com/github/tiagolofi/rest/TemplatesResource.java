@@ -69,7 +69,14 @@ public class TemplatesResource {
     @Path("/love-calendar")
     @RolesAllowed({"user"})
     public TemplateInstance get() throws JacksonException, DatabindException, IOException {
-        return Templates.loveCalendar(token.getSubject(), eventos());
+        return Templates.loveCalendar(capitalize(token.getSubject()), eventos());
+    }
+
+    private String capitalize(String str) {
+        if (str == null || str.isEmpty()) {
+            return str;
+        }
+        return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
     }
 
     private List<Evento> eventos() throws StreamReadException, DatabindException, IOException {

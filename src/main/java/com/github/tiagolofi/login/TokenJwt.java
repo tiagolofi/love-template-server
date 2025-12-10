@@ -15,7 +15,10 @@ public class TokenJwt {
     Configs configs;
 
     public String token(Credencial credencial) { 
-        String password = configs.users().get(credencial.usuario);
+        String data = configs.users().get(credencial.usuario);
+        String password = data != null ? data.split("\\|")[0] : null;
+        String[] roles = data != null ? data.split("\\|")[1].split(",") : new String[]{};
+        
         if (password == null) {
             throw new UnauthorizedException();
         }
@@ -27,7 +30,7 @@ public class TokenJwt {
             .issuer("https://github.com.br/tiagolofi")
             .upn(credencial.usuario)
             .subject(credencial.usuario)
-            .groups(Set.of("user"))
+            .groups(Set.of(roles))
             .claim("dataHora", LocalDateTime.now())
             .expiresIn(Duration.ofHours(1))
             .innerSign()
