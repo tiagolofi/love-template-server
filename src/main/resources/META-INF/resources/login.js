@@ -72,7 +72,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
       successDiv.style.display = 'block';
 
       window.location.href = '/templates/love-calendar';
-      // window.headers.set('Authorization', token);
+      window.Headers.set('Authorization', token);
 
     //   // Aguardar um pouco e depois substituir o conteúdo
     //   setTimeout(() => {
