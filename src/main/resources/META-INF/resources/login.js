@@ -64,6 +64,8 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
 
       // 4. Carregar o HTML da resposta e injetar na página
       // const html = await response.text();
+
+      document.cookie = `Authorization=${token}; path=/; SameSite=Lax`;
       
       // Mostrar mensagem de sucesso
       successDiv.textContent = 'Login realizado com sucesso!';
