@@ -2,6 +2,8 @@ package com.github.tiagolofi.rest;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.util.Base64;
 import java.util.List;
 
 import org.eclipse.microprofile.jwt.JsonWebToken;
@@ -80,10 +82,13 @@ public class TemplatesResource {
     }
 
     private List<Evento> eventos() throws StreamReadException, DatabindException, IOException {
-        File file = new File("roteiro.json");
+        File file = new File("eventos.txt");
         if (file.exists() && file.canRead()) {
+            String base64 = Files.readString(file.toPath()).replaceAll("\\s+", "");
+            byte[] decodedBytes = Base64.getDecoder().decode(base64);
+            String json = new String(decodedBytes);
             ObjectMapper mapper = new ObjectMapper();
-            Roteiro roteiro = mapper.readValue(file, Roteiro.class);
+            Roteiro roteiro = mapper.readValue(json, Roteiro.class);
             return roteiro.eventos;
         }
         return null;
