@@ -6,5 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class Roteiro {
     @JsonProperty
-    public List<Evento> eventos;
+    public List<Dia> dias;
+    public List<Evento> cronograma;
 }

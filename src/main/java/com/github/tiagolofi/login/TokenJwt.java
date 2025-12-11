@@ -12,18 +12,18 @@ import jakarta.inject.Inject;
 public class TokenJwt {
 
     @Inject
-    Configs configs;
+    Usuarios usuarios;
 
     public String token(Credencial credencial) { 
-        String data = configs.users().get(credencial.usuario);
+        String data = usuarios.credenciais().get(credencial.usuario);
         String password = data != null ? data.split("\\|")[0] : null;
         String[] roles = data != null ? data.split("\\|")[1].split(",") : new String[]{};
         
         if (password == null) {
-            throw new UnauthorizedException();
+            throw new CredencialInvalidaException();
         }
         if (!credencial.senha.equals(password)) {
-            throw new UnauthorizedException();
+            throw new CredencialInvalidaException();
         }
 
         return Jwt
@@ -37,8 +37,8 @@ public class TokenJwt {
             .encrypt();
     }
 
-    public static class UnauthorizedException extends RuntimeException {
-        public UnauthorizedException() {
+    public static class CredencialInvalidaException extends RuntimeException {
+        public CredencialInvalidaException() {
             super("Credenciais inválidas.");
         }
     }

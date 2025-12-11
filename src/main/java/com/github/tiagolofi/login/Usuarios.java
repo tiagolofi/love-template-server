@@ -5,6 +5,6 @@ import java.util.Map;
 import io.smallrye.config.ConfigMapping;
 
 @ConfigMapping(prefix = "love.template")
-public interface Configs {
-    Map<String, String> users();
+public interface Usuarios {
+    Map<String, String> credenciais();
 }

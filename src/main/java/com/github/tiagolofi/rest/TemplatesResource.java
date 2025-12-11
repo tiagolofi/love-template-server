@@ -4,13 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Base64;
-import java.util.List;
 
 import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.jboss.logging.Logger;
 
 import com.fasterxml.jackson.core.JacksonException;
-import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tiagolofi.filter.LoveCalendarRequestFilter;
@@ -47,7 +45,7 @@ public class TemplatesResource {
 
     @CheckedTemplate(requireTypeSafeExpressions = false)
     public static class Templates {
-        public static native TemplateInstance loveCalendar(String nome, List<Evento> eventos);
+        public static native TemplateInstance loveCalendar(String nome, Roteiro roteiro);
         public static native TemplateInstance login();
     }
 
@@ -70,8 +68,22 @@ public class TemplatesResource {
     @Produces(MediaType.TEXT_HTML)
     @Path("/love-calendar")
     @RolesAllowed({"user"})
-    public TemplateInstance get() throws JacksonException, DatabindException, IOException {
-        return Templates.loveCalendar(capitalize(token.getSubject()), eventos());
+    public TemplateInstance get() throws IOException {
+
+        File file = new File("eventos.txt");
+        if (!file.exists() || !file.canRead()) {
+            return Templates.loveCalendar("Usuário", new Roteiro());
+        }
+
+        String base64 = Files.readString(file.toPath()).replaceAll("\\s+", "");
+        byte[] decodedBytes = Base64.getDecoder().decode(base64);
+        String json = new String(decodedBytes);
+        ObjectMapper mapper = new ObjectMapper();
+        Roteiro roteiro = mapper.readValue(json, Roteiro.class);
+
+        String nome = capitalize(token.getSubject());
+
+        return Templates.loveCalendar(nome, roteiro);
     }
 
     private String capitalize(String str) {
@@ -79,19 +91,6 @@ public class TemplatesResource {
             return str;
         }
         return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
-    }
-
-    private List<Evento> eventos() throws StreamReadException, DatabindException, IOException {
-        File file = new File("eventos.txt");
-        if (file.exists() && file.canRead()) {
-            String base64 = Files.readString(file.toPath()).replaceAll("\\s+", "");
-            byte[] decodedBytes = Base64.getDecoder().decode(base64);
-            String json = new String(decodedBytes);
-            ObjectMapper mapper = new ObjectMapper();
-            Roteiro roteiro = mapper.readValue(json, Roteiro.class);
-            return roteiro.eventos;
-        }
-        return null;
     }
 
 }

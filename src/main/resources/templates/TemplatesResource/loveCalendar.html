@@ -43,12 +43,10 @@
           <div class="cell dim"><div class="date">24</div></div>
           <div class="cell dim"><div class="date">25</div></div>
 
-          {#for evento in eventos}
-            {#if evento.isPrincipal}
+          {#for dia in roteiro.dias}
             <div class="cell in-range start"><div class="date">{evento.dia}</div>
               <div class="event">{evento.titulo}</div>
             </div>
-            {/if}
           {/for}
 
           <!-- filler -->
@@ -62,14 +60,12 @@
       <aside class="schedule">
         <h3>Cronograma</h3>
 
-        {#for evento in eventos}
-          {#if evento.isCronograma}
-            <div class="event-item">
-              <time>{evento.data} - {evento.hora}</time>
-              <div class="title">{evento.titulo}</div>
-              <div class="desc">{evento.descricao}</div>
-            </div>
-          {/if}
+        {#for evento in roteiro.cronograma}
+          <div class="event-item">
+            <time>{evento.data} - {evento.hora}</time>
+            <div class="title">{evento.titulo}</div>
+            <div class="desc">{evento.descricao}</div>
+          </div>
         {/for}
 
         <!-- <footer class="note">Sugestão: clique nos dias do calendário para adicionar ou editar eventos (funcionalidade futura).</footer> -->
