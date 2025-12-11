@@ -8,8 +8,6 @@ import java.util.Base64;
 import org.eclipse.microprofile.jwt.JsonWebToken;
 import org.jboss.logging.Logger;
 
-import com.fasterxml.jackson.core.JacksonException;
-import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tiagolofi.filter.LoveCalendarRequestFilter;
 import com.github.tiagolofi.login.TokenJwt;
